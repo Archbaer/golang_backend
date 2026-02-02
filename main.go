@@ -5,6 +5,7 @@ import (
 
 	"github.com/gin-gonic/gin"
 
+	"backend/middlewares"
 	"backend/routes"
 )
 
@@ -13,11 +14,7 @@ func main() {
 
 	r := gin.Default()
 
-	r.Use(func(c *gin.Context) {
-		fmt.Println("This is a middleware executing before request")
-		c.Next()
-		fmt.Println("This is a middleware executing after request")
-	})
+	r.Use(middlewares.Logging())
 
 	r.GET("/", func(c *gin.Context) {
 		c.JSON(200, gin.H{
