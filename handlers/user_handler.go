@@ -5,8 +5,9 @@ import (
 )
 
 type UserData struct {
-	Name  string
-	Email string
+	Name     string
+	Email    string
+	Password int
 }
 
 var users = map[string]UserData{
