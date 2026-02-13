@@ -12,7 +12,19 @@ import (
 var logFile, _ = os.OpenFile("gin_log.log", os.O_APPEND|os.O_CREATE|os.O_WRONLY, 0644)
 
 func LoggerFile() gin.HandlerFunc {
-	return gin.LoggerWithWriter(logFile)
+	return gin.LoggerWithFormatter(func(param gin.LogFormatterParams) string {
+		return fmt.Sprintf("%s - [%s] \"%s %s %s %d %s \"%s\" %s\"\n",
+			param.ClientIP,
+			param.TimeStamp.Format(time.RFC1123),
+			param.Method,
+			param.Path,
+			param.Request.Proto,
+			param.StatusCode,
+			param.Latency,
+			param.Request.UserAgent(),
+			param.ErrorMessage,
+		)
+	})
 }
 
 func Logging() gin.HandlerFunc {
